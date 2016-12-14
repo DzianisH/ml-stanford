@@ -14,8 +14,16 @@ function plotData(x, y)
 %       appear as red crosses. Furthermore, you can make the
 %       markers larger by using plot(..., 'rx', 'MarkerSize', 10);
 
-figure; % open a new figure window
+figure(1); % open a new figure window
 
+% imagesc(X);
+
+plot(x, y, 'k.');
+xlabel('input');
+ylabel('output');
+title('data set');
+
+% contour3(X(1), X(2), y );
 
 
 
