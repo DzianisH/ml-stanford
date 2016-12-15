@@ -24,8 +24,8 @@ end
 
 % this function should be some where else, but I can't create additional
 % files
-% Returns an vector of partial derivaters per every X
-% (including first immutable x=1)
+% Returns an vector of partial derivaters per every theta
+% (including first immutable theta=1)
 function dJ = computeCostPartialDerivatives(X, y, theta)
 
     err = X * theta - y;

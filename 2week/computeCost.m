@@ -5,10 +5,10 @@ function J = computeCost(X, y, theta)
 
 % err is a vector of errors of predictions for every input value
 % X*theta is an hypothesis h
-err = X * theta - y;
+    err = X * theta - y;
 
-m = length(y);
-J = err' * err / (2 * m);
+    m = length(y);
+    J = err' * err / (2 * m);
 
 % =========================================================================
 end
