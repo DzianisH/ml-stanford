@@ -26,7 +26,7 @@ regTheta(1) = 0;
 
 pos = y' * log(h);
 neg = (1 - y)' * log(1 - h);
-reg = regTheta' * regTheta;
+reg = theta' * theta;
 reg = lambda * reg / 2;
 J = (reg -(pos + neg)) / m;
 
@@ -34,7 +34,7 @@ J = (reg -(pos + neg)) / m;
 
 
 err = h - y;
-err = (err' * X) + (l .* regTheta)';
+err = (err' * X) + (l .* theta)';
 grad = err ./ m;
 
 

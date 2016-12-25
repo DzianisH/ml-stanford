@@ -12,9 +12,11 @@ figure; hold on;
 %               examples and 'ko' for the negative examples.
 %
 
-
-
-
+    for i = 1:size(y, 1)
+        if( y(i) == 0 ) plot(X(i,1), X(i,2), 'bo');
+        else plot(X(i,1), X(i,2), 'r+');
+        end
+    end
 
 
 
