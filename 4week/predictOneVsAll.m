@@ -30,13 +30,10 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
-
-
+% all_p is a matrix training element x line of probabilities of class
+all_p = sigmoid(X * all_theta');
+[stuff, p] = max(all_p, [], 2);
 
 % =========================================================================
-
 
 end

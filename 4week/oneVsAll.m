@@ -15,7 +15,6 @@ n = size(X, 2);
 all_theta = zeros(num_labels, n + 1);
 
 % Add ones to the X data matrix
-X = [ones(m, 1) X];
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the following code to train num_labels
@@ -49,15 +48,15 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
+    X = [ones(m, 1) X];
 
+    initial_theta = zeros(n + 1, 1);
 
-
-
-
-
-
-
-
+    for c=1:num_labels
+        options = optimset('GradObj', 'on', 'display', 'off', 'MaxIter', 60, 'TolFun', 1e-4);
+        all_theta(c, :) = fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), ...
+                         initial_theta, options);
+    end
 
 
 % =========================================================================
