@@ -3,6 +3,14 @@ function [J grad] = nnCostFunction(nn_params, ...
                                    hidden_layer_size, ...
                                    num_labels, ...
                                    X, y, lambda)
+                               
+% input_layer_size = 2;              % input layer
+% hidden_layer_size = 2;              % hidden layer
+% num_labels = 4;              % number of labels
+% nn_params = [ 1:18 ] / 10;  % nn_params
+% X = cos([1 2 ; 3 4 ; 5 6]);
+% y = [4; 2; 3];
+% lambda = 4;
 %NNCOSTFUNCTION Implements the neural network cost function for a two layer
 %neural network which performs classification
 %   [J grad] = NNCOSTFUNCTON(nn_params, hidden_layer_size, num_labels, ...
@@ -63,21 +71,49 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+% 1) FF
+a1 = [ones(size(X, 1), 1), X];
+z2 = a1 * Theta1';
+a2 = [ones(size(z2, 1), 1), sigmoid(z2)];
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
+h = a3;
+
+% unroll vector y to logical array
+Y = zeros(size(y,1), num_labels);
+for i=1:m
+    Y(i, y(i,1)) = 1;
+end
+
+J = Y .* log(h) + (1 - Y) .* log(1 - h);
+J = -sum(sum(J)) / m;
+if isnan(J)
+    J = 0;
+end
 
 
+% 2) BP
+Delta1 = zeros(size(Theta1));
+Delta2 = zeros(size(Theta2));
+for i=1:m
+   delta3 = (h(i,:) - Y(i,:))';
+   delta2 = Theta2' * delta3; % need to scip delta for bias
+   delta2 = delta2(2:end,:) .* sigmoidGradient(z2(i,:)'); % (a2(i,:) .* (1 - a2(i,:)))';
+
+   Delta1 = Delta1 +  delta2 * a1(i,:);
+   Delta2 = Delta2 +  delta3 * a2(i,:);
+end
+Theta1_grad = Delta1 / m;
+Theta2_grad = Delta2 / m;
 
 
+% 3) L2 Regularisation
+tmp1 = Theta1(:, 2:end);
+tmp2 = Theta2(:, 2:end);
+J = J + (sum(sum(tmp1 .* tmp1)) + sum(sum(tmp2 .* tmp2))) * lambda / (2*m);
 
-
-
-
-
-
-
-
-
-
-
+Theta1_grad = Theta1_grad + [zeros(size(tmp1, 1), 1), tmp1] * lambda / m;
+Theta2_grad = Theta2_grad + [zeros(size(tmp2, 1), 1), tmp2] * lambda / m;
 
 
 % -------------------------------------------------------------
