@@ -20,7 +20,7 @@ clear ; close all; clc
 
 %% Setup the parameters you will use for this exercise
 input_layer_size  = 400;  % 20x20 Input Images of Digits
-hidden_layer_size = 25;   % 25 hidden units
+hidden_layer_size = 250;   % 25 hidden units
 num_labels = 10;          % 10 labels, from 1 to 10   
                           % (note that we have mapped "0" to label 10)
 
@@ -74,11 +74,11 @@ fprintf('\nFeedforward Using Neural Network ...\n')
 % Weight regularization parameter (we set this to 0 here).
 lambda = 0;
 
-J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
-                   num_labels, X, y, lambda);
+% J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
+%                    num_labels, X, y, lambda);
 
-fprintf(['Cost at parameters (loaded from ex4weights): %f '...
-         '\n(this value should be about 0.287629)\n'], J);
+% fprintf(['Cost at parameters (loaded from ex4weights): %f '...
+%          '\n(this value should be about 0.287629)\n'], J);
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
@@ -87,20 +87,20 @@ pause;
 %  Once your cost function implementation is correct, you should now
 %  continue to implement the regularization with the cost.
 %
-
-fprintf('\nChecking Cost Function (w/ Regularization) ... \n')
-
-% Weight regularization parameter (we set this to 1 here).
-lambda = 1;
-
-J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
-                   num_labels, X, y, lambda);
-
-fprintf(['Cost at parameters (loaded from ex4weights): %f '...
-         '\n(this value should be about 0.383770)\n'], J);
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
+% 
+% fprintf('\nChecking Cost Function (w/ Regularization) ... \n')
+% 
+% % Weight regularization parameter (we set this to 1 here).
+% lambda = 1;
+% 
+% J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
+%                    num_labels, X, y, lambda);
+% 
+% fprintf(['Cost at parameters (loaded from ex4weights): %f '...
+%          '\n(this value should be about 0.383770)\n'], J);
+% 
+% fprintf('Program paused. Press enter to continue.\n');
+% pause;
 
 
 %% ================ Part 5: Sigmoid Gradient  ================
@@ -108,16 +108,16 @@ pause;
 %  implement the gradient for the sigmoid function. You should complete the
 %  code in the sigmoidGradient.m file.
 %
-
-fprintf('\nEvaluating sigmoid gradient...\n')
-
-g = sigmoidGradient([-1 -0.5 0 0.5 1]);
-fprintf('Sigmoid gradient evaluated at [-1 -0.5 0 0.5 1]:\n  ');
-fprintf('%f ', g);
-fprintf('\n\n');
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
+% 
+% fprintf('\nEvaluating sigmoid gradient...\n')
+% 
+% g = sigmoidGradient([-1 -0.5 0 0.5 1]);
+% fprintf('Sigmoid gradient evaluated at [-1 -0.5 0 0.5 1]:\n  ');
+% fprintf('%f ', g);
+% fprintf('\n\n');
+% 
+% fprintf('Program paused. Press enter to continue.\n');
+% pause;
 
 
 %% ================ Part 6: Initializing Pameters ================
@@ -141,35 +141,35 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 %  code you've written in nnCostFunction.m to return the partial
 %  derivatives of the parameters.
 %
-fprintf('\nChecking Backpropagation... \n');
-
-%  Check gradients by running checkNNGradients
-checkNNGradients;
-
-fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+% fprintf('\nChecking Backpropagation... \n');
+% 
+% %  Check gradients by running checkNNGradients
+% checkNNGradients;
+% 
+% fprintf('\nProgram paused. Press enter to continue.\n');
+% pause;
 
 
 %% =============== Part 8: Implement Regularization ===============
 %  Once your backpropagation implementation is correct, you should now
 %  continue to implement the regularization with the cost and gradient.
 %
-
-fprintf('\nChecking Backpropagation (w/ Regularization) ... \n')
-
-%  Check gradients by running checkNNGradients
-lambda = 3;
-checkNNGradients(lambda);
-
-% Also output the costFunction debugging values
-debug_J  = nnCostFunction(nn_params, input_layer_size, ...
-                          hidden_layer_size, num_labels, X, y, lambda);
-
-fprintf(['\n\nCost at (fixed) debugging parameters (w/ lambda = %f): %f ' ...
-         '\n(for lambda = 3, this value should be about 0.576051)\n\n'], lambda, debug_J);
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
+% 
+% fprintf('\nChecking Backpropagation (w/ Regularization) ... \n')
+% 
+% %  Check gradients by running checkNNGradients
+% lambda = 3;
+% checkNNGradients(lambda);
+% 
+% % Also output the costFunction debugging values
+% debug_J  = nnCostFunction(nn_params, input_layer_size, ...
+%                           hidden_layer_size, num_labels, X, y, lambda);
+% 
+% fprintf(['\n\nCost at (fixed) debugging parameters (w/ lambda = %f): %f ' ...
+%          '\n(for lambda = 3, this value should be about 0.576051)\n\n'], lambda, debug_J);
+% 
+% fprintf('Program paused. Press enter to continue.\n');
+% pause;
 
 
 %% =================== Part 8: Training NN ===================
@@ -183,16 +183,46 @@ fprintf('\nTraining Neural Network... \n')
 
 %  After you have completed the assignment, change the MaxIter to a larger
 %  value to see how more training helps.
-options = optimset('MaxIter', 50);
+options = optimset('MaxIter', 3500);
 
 %  You should also try different values of lambda
-lambda = 1;
+lambda = 0.6;
+
+y_train = [
+        y(1:400,:); y(501:900,:);
+        y(1001:1400,:); y(1501:1900,:);
+        y(2001:2400,:); y(2501:2900,:);
+        y(3001:3400,:); y(3501:3900,:);
+        y(4001:4400,:); y(4501:4900,:);
+    ];
+y_test = [
+        y(401:500,:); y(901:1000,:);
+        y(1401:1500,:); y(1901:2000,:);
+        y(2401:2500,:); y(2901:3000,:);
+        y(3401:3500,:); y(3901:4000,:);
+        y(4401:4500,:); y(4901:5000,:);
+    ];
+
+X_train = [
+        X(1:400,:); X(501:900,:);
+        X(1001:1400,:); X(1501:1900,:);
+        X(2001:2400,:); X(2501:2900,:);
+        X(3001:3400,:); X(3501:3900,:);
+        X(4001:4400,:); X(4501:4900,:);
+    ];
+X_test = [
+        X(401:500,:); X(901:1000,:);
+        X(1401:1500,:); X(1901:2000,:);
+        X(2401:2500,:); X(2901:3000,:);
+        X(3401:3500,:); X(3901:4000,:);
+        X(4401:4500,:); X(4901:5000,:);
+    ];
 
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...
                                    input_layer_size, ...
                                    hidden_layer_size, ...
-                                   num_labels, X, y, lambda);
+                                   num_labels, X_train, y_train, lambda);
 
 % Now, costFunction is a function that takes in only one argument (the
 % neural network parameters)
@@ -205,8 +235,8 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
 
-fprintf('Program paused. Press enter to continue.\n');
-pause;
+% fprintf('Program paused. Press enter to continue.\n');
+% pause;
 
 
 %% ================= Part 9: Visualize Weights =================
@@ -218,8 +248,8 @@ fprintf('\nVisualizing Neural Network... \n')
 
 displayData(Theta1(:, 2:end));
 
-fprintf('\nProgram paused. Press enter to continue.\n');
-pause;
+% fprintf('\nProgram paused. Press enter to continue.\n');
+% pause;
 
 %% ================= Part 10: Implement Predict =================
 %  After training the neural network, we would like to use it to predict
@@ -228,7 +258,13 @@ pause;
 %  you compute the training set accuracy.
 
 pred = predict(Theta1, Theta2, X);
+fprintf('\nData Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
-fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
+
+pred = predict(Theta1, Theta2, X_train);
+fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y_train)) * 100);
+
+pred = predict(Theta1, Theta2, X_test);
+fprintf('\nTest Set Accuracy: %f\n', mean(double(pred == y_test)) * 100);
 
 
